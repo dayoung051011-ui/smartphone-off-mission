@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- 문자 인코딩 설정 (한글이 깨지지 않도록) -->
+  <meta charset="UTF-8" />
+  <!-- 모바일 반응형 설정 (화면 크기에 맞게 자동 조정) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 브라우저 탭에 보이는 제목 -->
+  <title>📱 스마트폰 오프(OFF) 미션 앱</title>
+  <!-- 외부 스타일시트 연결 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== 전체 화면 래퍼 ===== -->
+  <div class="wrapper">
+
+    <!-- ===== 헤더 영역: 앱 제목 ===== -->
+    <header class="app-header">
+      <h1 class="app-title">📱 스마트폰 오프(OFF) 미션 앱 ✨</h1>
+      <p class="app-subtitle">잠깐, 폰 내려놓고 현실로 돌아와 봐! 🔋</p>
+    </header>
+
+    <!-- ===== 메인 콘텐츠 영역 ===== -->
+    <main class="main-content">
+
+      <!-- 완료 횟수 표시 배지 -->
+      <div class="counter-badge">
+        <span class="counter-icon">🏆</span>
+        <span>미션 완료</span>
+        <span class="counter-number" id="count">0</span>
+        <span>회</span>
+      </div>
+
+      <!-- ===== 레벨 카드 ===== -->
+      <!-- JS가 포인트·레벨·진행 바를 모두 채워줌 -->
+      <div class="level-card" id="levelCard">
+
+        <!-- 왼쪽: 레벨 뱃지 (아이콘 + 숫자) -->
+        <div class="level-badge-wrap">
+          <span class="level-icon" id="levelIcon">🌱</span>
+          <div class="level-badge-text">
+            <span class="level-label">LEVEL</span>
+            <span class="level-num" id="levelNum">1</span>
+          </div>
+        </div>
+
+        <!-- 오른쪽: 레벨명 + 포인트 + 진행 바 -->
+        <div class="level-info">
+          <div class="level-name-row">
+            <span class="level-name" id="levelName">씨앗</span>
+            <span class="level-points" id="levelPoints">0 pts</span>
+          </div>
+          <!-- 진행 바 외곽 -->
+          <div class="level-bar-track">
+            <!-- 실제 채워지는 바 (width를 JS가 %로 설정) -->
+            <div class="level-bar-fill" id="levelBarFill"></div>
+          </div>
+          <!-- 다음 레벨까지 남은 포인트 -->
+          <div class="level-next" id="levelNext">다음 레벨까지 30 pts</div>
+        </div>
+
+      </div>
+
+      <!-- ===== 미션 카드 ===== -->
+      <div class="mission-card" id="missionCard">
+
+        <!-- 카드 상단 레이블 -->
+        <div class="card-label">✨ 오늘의 미션</div>
+
+        <!-- 미션 텍스트가 들어올 자리 (JavaScript가 내용을 채움) -->
+        <p class="mission-text" id="missionText">
+          아래 버튼을 눌러서<br />오늘의 미션을 뽑아보세요! 🎯
+        </p>
+
+        <!-- 카드 하단 안내 문구 -->
+        <p class="card-hint" id="cardHint">버튼을 누르면 랜덤 미션이 나와요</p>
+      </div>
+
+      <!-- ===== 버튼 영역 ===== -->
+      <div class="button-group">
+        <!-- 미션 뽑기 버튼: 클릭 시 script.js의 drawMission() 함수 실행 -->
+        <button class="btn btn-draw" onclick="drawMission()">
+          🎲 미션 뽑기
+        </button>
+
+        <!-- 미션 완료 버튼: 클릭 시 script.js의 completeMission() 함수 실행 -->
+        <button class="btn btn-complete" onclick="completeMission()" id="completeBtn" disabled>
+          ✅ 미션 완료
+        </button>
+      </div>
+
+      <!-- 완료 축하 메시지 (기본은 숨겨져 있고, JS로 보여줌) -->
+      <div class="congrats-message" id="congratsMessage">
+        🎉 잘했어! +10 포인트 획득!
+      </div>
+
+      <!-- 레벨업 축하 토스트 (화면 중앙에 잠깐 나타남) -->
+      <!-- JS가 .show 클래스를 붙였다 뗌 -->
+      <div class="levelup-toast" id="levelupToast">
+        <span class="levelup-toast-icon" id="levelupIcon">🎊</span>
+        <div class="levelup-toast-title" id="levelupTitle">레벨 업!</div>
+        <div class="levelup-toast-sub" id="levelupSub">Lv.2 새싹 달성!</div>
+      </div>
+
+      <!-- ===== 최근 완료 기록 섹션 ===== -->
+      <section class="history-section" id="historySection">
+
+        <!-- 섹션 헤더: 제목 + 전체 삭제 버튼 -->
+        <div class="history-header">
+          <h2 class="history-title">📋 최근 완료 기록</h2>
+          <!-- 기록 전체 삭제 버튼 (기록이 있을 때만 JS가 보여줌) -->
+          <button class="btn-clear" id="clearBtn" onclick="clearHistory()">
+            🗑️ 전체 삭제
+          </button>
+        </div>
+
+        <!-- 기록이 없을 때 보여주는 안내 문구 -->
+        <div class="history-empty" id="historyEmpty">
+          <span class="history-empty-icon">🌱</span>
+          <p>아직 완료한 미션이 없어요.<br />첫 미션을 완료해 보세요!</p>
+        </div>
+
+        <!-- 완료 기록 목록 (JS가 항목을 추가함) -->
+        <!-- 최신 기록이 맨 위에 오도록 JS가 prepend()로 삽입 -->
+        <ul class="history-list" id="historyList"></ul>
+
+      </section>
+
+    </main>
+
+    <!-- ===== 푸터 (화면 맨 아래 안내 문구) ===== -->
+    <footer class="app-footer">
+      <p>이 앱은 건강한 스마트폰 사용 습관을 위한 참고용입니다.</p>
+    </footer>
+
+  </div><!-- /wrapper -->
+
+  <!-- JavaScript 파일 연결 (body 닫기 태그 바로 위에 위치해야 HTML이 다 로드된 후 실행됨) -->
+  <script src="script.js"></script>
+</body>
+</html>
