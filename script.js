@@ -438,6 +438,51 @@ function clearHistory() {
   updateHistoryUI();
 }
 
+/**
+ * resetAll() — 횟수·포인트·레벨·기록을 모두 초기값으로 되돌린다.
+ * 푸터의 [🔄 전체 초기화] 버튼 클릭 시 실행된다.
+ */
+function resetAll() {
+  const confirmed = window.confirm(
+    '⚠️ 전체 초기화\n\n완료 횟수, 포인트, 레벨, 모든 기록이 삭제됩니다.\n정말 초기화할까요?'
+  );
+  if (!confirmed) return;
+
+  // ① localStorage 전체 삭제
+  localStorage.removeItem(STORAGE_KEY_COUNT);
+  localStorage.removeItem(STORAGE_KEY_POINTS);
+  localStorage.removeItem(STORAGE_KEY_HISTORY);
+
+  // ② 상태 변수 초기화
+  completionCount    = 0;
+  totalPoints        = 0;
+  missionDrawn       = false;
+  lastMissionIndex   = -1;
+  currentMissionText = '';
+
+  // ③ 완료 횟수 배지 초기화
+  countEl.textContent = 0;
+
+  // ④ 레벨 카드 초기화
+  updateLevelUI(null);
+
+  // ⑤ 미션 카드 초기 문구로 복원
+  missionTextEl.textContent = '아래 버튼을 눌러서\n오늘의 미션을 뽑아보세요! 🎯';
+  missionTextEl.innerHTML   = '아래 버튼을 눌러서<br />오늘의 미션을 뽑아보세요! 🎯';
+  cardHintEl.textContent    = '버튼을 누르면 랜덤 미션이 나와요';
+  cardHintEl.classList.remove('active');
+
+  // ⑥ 완료 버튼 비활성화
+  completeBtnEl.disabled = true;
+
+  // ⑦ 축하 메시지 숨기기
+  hideCongrats();
+
+  // ⑧ 기록 목록 비우기
+  historyListEl.innerHTML = '';
+  updateHistoryUI();
+}
+
 
 // ─────────────────────────────────────────────
 //  11. 유틸리티 함수
