@@ -24,42 +24,18 @@
     <!-- ===== 메인 콘텐츠 영역 ===== -->
     <main class="main-content">
 
-      <!-- 완료 횟수 표시 배지 -->
-      <div class="counter-badge">
-        <span class="counter-icon">🏆</span>
-        <span>미션 완료</span>
-        <span class="counter-number" id="count">0</span>
-        <span>회</span>
-      </div>
-
-      <!-- ===== 레벨 카드 ===== -->
-      <!-- JS가 포인트·레벨·진행 바를 모두 채워줌 -->
-      <div class="level-card" id="levelCard">
-
-        <!-- 왼쪽: 레벨 뱃지 (아이콘 + 숫자) -->
-        <div class="level-badge-wrap">
-          <span class="level-icon" id="levelIcon">🌱</span>
-          <div class="level-badge-text">
-            <span class="level-label">LEVEL</span>
-            <span class="level-num" id="levelNum">1</span>
-          </div>
+      <!-- 완료 횟수 배지 + 전체 초기화 버튼을 한 줄에 배치 -->
+      <div class="counter-row">
+        <div class="counter-badge">
+          <span class="counter-icon">🏆</span>
+          <span>미션 완료</span>
+          <span class="counter-number" id="count">0</span>
+          <span>회</span>
         </div>
-
-        <!-- 오른쪽: 레벨명 + 포인트 + 진행 바 -->
-        <div class="level-info">
-          <div class="level-name-row">
-            <span class="level-name" id="levelName">씨앗</span>
-            <span class="level-points" id="levelPoints">0 pts</span>
-          </div>
-          <!-- 진행 바 외곽 -->
-          <div class="level-bar-track">
-            <!-- 실제 채워지는 바 (width를 JS가 %로 설정) -->
-            <div class="level-bar-fill" id="levelBarFill"></div>
-          </div>
-          <!-- 다음 레벨까지 남은 포인트 -->
-          <div class="level-next" id="levelNext">다음 레벨까지 30 pts</div>
-        </div>
-
+        <!-- 전체 초기화 버튼 -->
+        <button class="btn-reset-all" onclick="resetAll()">
+          🔄 전체 초기화
+        </button>
       </div>
 
       <!-- ===== 미션 카드 ===== -->
@@ -93,6 +69,36 @@
       <!-- 완료 축하 메시지 (기본은 숨겨져 있고, JS로 보여줌) -->
       <div class="congrats-message" id="congratsMessage">
         🎉 잘했어! +10 포인트 획득!
+      </div>
+
+      <!-- ===== 레벨 카드 ===== -->
+      <!-- JS가 포인트·레벨·진행 바를 모두 채워줌 -->
+      <div class="level-card" id="levelCard">
+
+        <!-- 왼쪽: 레벨 뱃지 (아이콘 + 숫자) -->
+        <div class="level-badge-wrap">
+          <span class="level-icon" id="levelIcon">🌱</span>
+          <div class="level-badge-text">
+            <span class="level-label">LEVEL</span>
+            <span class="level-num" id="levelNum">1</span>
+          </div>
+        </div>
+
+        <!-- 오른쪽: 레벨명 + 포인트 + 진행 바 -->
+        <div class="level-info">
+          <div class="level-name-row">
+            <span class="level-name" id="levelName">씨앗</span>
+            <span class="level-points" id="levelPoints">0 pts</span>
+          </div>
+          <!-- 진행 바 외곽 -->
+          <div class="level-bar-track">
+            <!-- 실제 채워지는 바 (width를 JS가 %로 설정) -->
+            <div class="level-bar-fill" id="levelBarFill"></div>
+          </div>
+          <!-- 다음 레벨까지 남은 포인트 -->
+          <div class="level-next" id="levelNext">다음 레벨까지 30 pts</div>
+        </div>
+
       </div>
 
       <!-- 레벨업 축하 토스트 (화면 중앙에 잠깐 나타남) -->
